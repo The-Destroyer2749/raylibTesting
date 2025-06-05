@@ -1,11 +1,13 @@
 #include "raylib.h"
+#include "ray"
 #include "vector"
 
 int main() {
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(800, 450, "raylib [core] example - basic window");
 
     struct Block {
-        Vector2 position;
+        Rectangle rectangle;
         Color color;
     };
 
@@ -18,18 +20,32 @@ int main() {
     blockGrid.reserve(blockGridSize);
 
     for (int i=0; i<blockGridSize; i++) {
-        blockGrid.push_back(Block { // TODO: implement
+        blockGrid.push_back(Block { // TODO: implement actual proper grid creation alignment using modulo and other functions
             static_cast<float>(GetRandomValue(0, GetScreenWidth())),
-            static_cast<float>(GetRandomValue(0, GetScreenHeight())),
+            static_cast<float>(GetRandomValue(GetScreenHeight() / 2, GetScreenHeight())),
+            static_cast<float>(GetScreenWidth()) / blockGridWidth,
+            static_cast<float>(GetScreenHeight()) / blockGridHeight,
             RAYWHITE
         }); //
     }
+
+    int windowWidth = GetScreenWidth();
+    int windowHeight = GetScreenHeight();
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(DARKGRAY);
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+
+        if (windowWidth != GetScreenWidth() || windowHeight != GetScreenHeight()) {
+            windowWidth = GetScreenWidth();
+            windowHeight = GetScreenHeight();
+        }
+
+        for (int i=0; i<blockGridSize; i++) {
+            DrawRectangle(blockGrid[i].rectangle.x, blockGrid[i].rectangle.y, blockGrid[i].rectangle.width, blockGrid[i].rectangle.height, blockGrid[i].color);
+        }
+
         EndDrawing();
     }
 
