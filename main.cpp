@@ -1,10 +1,12 @@
 #include "raylib.h"
-#include "ray"
+#include "raygui.h"
+#include "style_dark.h"
 #include "vector"
 
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(800, 450, "raylib [core] example - basic window");
+    GuiLoadStyleDark(); // TODO: Replace rayGui with rlImGui because apparently rayGui is only for c and not c++
 
     struct Block {
         Rectangle rectangle;

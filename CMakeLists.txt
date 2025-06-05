@@ -3,7 +3,7 @@ project(raylibTesting)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include_directories(raylibTesting raylib/raylib-5.5_linux_amd64/include)
+include_directories(raylibTesting raylib/raylib-5.5_linux_amd64/include raylib/raygui-4.0/src raylib/raygui-4.0/styles/dark)
 
 add_executable(raylibTesting main.cpp)
 
