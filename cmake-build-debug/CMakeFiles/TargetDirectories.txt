@@ -1,0 +1,3 @@
+/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/cmake-build-debug/CMakeFiles/raylibTesting.dir
+/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/cmake-build-debug/CMakeFiles/edit_cache.dir
+/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/cmake-build-debug/CMakeFiles/rebuild_cache.dir
