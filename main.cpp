@@ -1,46 +1,40 @@
 #include "raylib.h"
 #include "rlImGui.h"
 #include "vector"
+#include "imgui.h"
 #include <iostream>
 
+
+struct Block {
+    Rectangle rectangle;
+    Color color;
+    unsigned int health;
+};
 
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(800, 450, "raylibTesting");
     rlImGuiSetup(true);
 
-
-    struct Block {
-        Rectangle rectangle;
-        Color color;
-        unsigned int health;
-    };
-
     std::vector<Block> blockGrid;
 
     int blockGridWidth = 30;
     int blockGridHeight = 20;
-    int blockGridSize = blockGridHeight * blockGridWidth;
+    int blockGridSize;
 
     blockGrid.reserve(blockGridSize);
-
-
 
     int windowWidth = GetScreenWidth();
     int windowHeight = GetScreenHeight();
 
     while (!WindowShouldClose()) {
-
-
         BeginDrawing();
         ClearBackground(DARKGRAY);
-
-        rlImGuiBegin();
-        rlImGuiEnd();
 
         if (windowWidth != GetScreenWidth() || windowHeight != GetScreenHeight()) {
             windowWidth = GetScreenWidth();
             windowHeight = GetScreenHeight();
+            blockGridSize = blockGridHeight * blockGridWidth;
 
             blockGrid.clear();
 
@@ -73,6 +67,18 @@ int main() {
             }
         }
 
+        rlImGuiBegin();
+
+        if (ImGui::Begin("Settings")) {
+            ImGui::Text("Block grid width");
+            ImGui::SliderInt("Block grid width slider", &blockGridWidth, 1, 100);
+
+            ImGui::Text("Block grid height");
+            ImGui::SliderInt("Block grid height slider", &blockGridHeight, 1, 100);
+        }
+        ImGui::End();
+
+        rlImGuiEnd();
         EndDrawing();
     }
 
