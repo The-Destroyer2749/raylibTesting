@@ -13,6 +13,7 @@ int main() {
     struct Block {
         Rectangle rectangle;
         Color color;
+        int health;
     };
 
     std::vector<Block> blockGrid;
@@ -42,33 +43,34 @@ int main() {
             windowHeight = GetScreenHeight();
 
             blockGrid.clear();
-            /*
-            for (int i=0; i<blockGridSize; i++) {
-                blockGrid.push_back(Block { // TODO: implement actual proper grid creation alignment using modulo and other functions
-                    static_cast<float>(GetRandomValue(0, GetScreenWidth())),
-                    static_cast<float>(GetRandomValue(GetScreenHeight() / 2, GetScreenHeight())),
-                    static_cast<float>(GetScreenWidth()) / blockGridWidth,
-                    static_cast<float>(GetScreenHeight()) / blockGridHeight,
-                    RAYWHITE
-                }); //
-            }
-            */
 
             float blockWidth = GetScreenWidth() / blockGridWidth;
             float blockHeight = GetScreenHeight() / blockGridHeight;
 
-            for (int i=0; i<blockGridWidth; i++) {
+
+            for (int i=0; i<blockGridSize; i++) {
+                int randomColorValue = GetRandomValue(160, 255);
                 blockGrid.push_back(Block {
-                    static_cast<float>((i % blockGridSize) * blockWidth),
-                    static_cast<float>((i / blockGridSize) * blockHeight),
+                    static_cast<float>(i % blockGridWidth) * blockWidth,
+                    static_cast<float>(i / blockGridWidth) * blockHeight,
                     static_cast<float>(blockWidth),
                     static_cast<float>(blockHeight),
+                    Color {static_cast<unsigned char>(randomColorValue), static_cast<unsigned char>(randomColorValue), static_cast<unsigned char>(randomColorValue), 255},
+                    GetRandomValue(0, 10)
                 });
             }
+            /*
+            for (int i=0; i<blockGridSize; i++) {
+                std::cout << "X pos: " << static_cast<float>((i % blockGridWidth) * blockWidth) << " | Y pos: " << static_cast<float>((i / blockGridWidth) * blockHeight) << " ][ Width: " << blockWidth << " | Height: " << blockHeight << std::endl;
+            }
+            std::cout << std::endl << std::endl;
+            */
         }
 
         for (int i=0; i<blockGridSize; i++) {
-            DrawRectangle(blockGrid[i].rectangle.x, blockGrid[i].rectangle.y, blockGrid[i].rectangle.width, blockGrid[i].rectangle.height, blockGrid[i].color);
+            if (blockGrid[i].health <= 0) {
+                DrawRectangle(blockGrid[i].rectangle.x, blockGrid[i].rectangle.y, blockGrid[i].rectangle.width, blockGrid[i].rectangle.height, blockGrid[i].color);
+            }
         }
 
         EndDrawing();
