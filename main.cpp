@@ -6,14 +6,14 @@
 
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(800, 450, "raylib [core] example - basic window");
+    InitWindow(800, 450, "raylibTesting");
     rlImGuiSetup(true);
 
 
     struct Block {
         Rectangle rectangle;
         Color color;
-        int health;
+        unsigned int health;
     };
 
     std::vector<Block> blockGrid;
@@ -56,7 +56,7 @@ int main() {
                     static_cast<float>(blockWidth),
                     static_cast<float>(blockHeight),
                     Color {static_cast<unsigned char>(randomColorValue), static_cast<unsigned char>(randomColorValue), static_cast<unsigned char>(randomColorValue), 255},
-                    GetRandomValue(0, 10)
+                    static_cast<unsigned int>(GetRandomValue(0, 10))
                 });
             }
             /*
@@ -68,7 +68,7 @@ int main() {
         }
 
         for (int i=0; i<blockGridSize; i++) {
-            if (blockGrid[i].health <= 0) {
+            if (blockGrid[i].health != 0) {
                 DrawRectangle(blockGrid[i].rectangle.x, blockGrid[i].rectangle.y, blockGrid[i].rectangle.width, blockGrid[i].rectangle.height, blockGrid[i].color);
             }
         }
