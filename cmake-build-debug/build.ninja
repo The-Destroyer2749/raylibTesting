@@ -52,9 +52,44 @@ build cmake_object_order_depends_target_raylibTesting: phony || .
 build CMakeFiles/raylibTesting.dir/main.cpp.o: CXX_COMPILER__raylibTesting_unscanned_Debug /media/philip/Games/Users/phili/Documents/Coding/raylibTesting/main.cpp || cmake_object_order_depends_target_raylibTesting
   DEP_FILE = CMakeFiles/raylibTesting.dir/main.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylibTesting -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylib/raylib-5.5_linux_amd64/include -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylib/raygui-4.0/src -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylib/raygui-4.0/styles/dark
+  INCLUDES = -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylibTesting -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/raylib-5.5_linux_amd64/include -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/rlImGui -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/imgui-1.91.9b
   OBJECT_DIR = CMakeFiles/raylibTesting.dir
   OBJECT_FILE_DIR = CMakeFiles/raylibTesting.dir
+
+build CMakeFiles/raylibTesting.dir/externalLibs/raylib/rlImGui/rlImGui.cpp.o: CXX_COMPILER__raylibTesting_unscanned_Debug /media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/rlImGui/rlImGui.cpp || cmake_object_order_depends_target_raylibTesting
+  DEP_FILE = CMakeFiles/raylibTesting.dir/externalLibs/raylib/rlImGui/rlImGui.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylibTesting -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/raylib-5.5_linux_amd64/include -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/rlImGui -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/imgui-1.91.9b
+  OBJECT_DIR = CMakeFiles/raylibTesting.dir
+  OBJECT_FILE_DIR = CMakeFiles/raylibTesting.dir/externalLibs/raylib/rlImGui
+
+build CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui.cpp.o: CXX_COMPILER__raylibTesting_unscanned_Debug /media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/imgui-1.91.9b/imgui.cpp || cmake_object_order_depends_target_raylibTesting
+  DEP_FILE = CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylibTesting -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/raylib-5.5_linux_amd64/include -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/rlImGui -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/imgui-1.91.9b
+  OBJECT_DIR = CMakeFiles/raylibTesting.dir
+  OBJECT_FILE_DIR = CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b
+
+build CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui_draw.cpp.o: CXX_COMPILER__raylibTesting_unscanned_Debug /media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/imgui-1.91.9b/imgui_draw.cpp || cmake_object_order_depends_target_raylibTesting
+  DEP_FILE = CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui_draw.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylibTesting -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/raylib-5.5_linux_amd64/include -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/rlImGui -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/imgui-1.91.9b
+  OBJECT_DIR = CMakeFiles/raylibTesting.dir
+  OBJECT_FILE_DIR = CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b
+
+build CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui_tables.cpp.o: CXX_COMPILER__raylibTesting_unscanned_Debug /media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/imgui-1.91.9b/imgui_tables.cpp || cmake_object_order_depends_target_raylibTesting
+  DEP_FILE = CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui_tables.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylibTesting -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/raylib-5.5_linux_amd64/include -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/rlImGui -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/imgui-1.91.9b
+  OBJECT_DIR = CMakeFiles/raylibTesting.dir
+  OBJECT_FILE_DIR = CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b
+
+build CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui_widgets.cpp.o: CXX_COMPILER__raylibTesting_unscanned_Debug /media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/imgui-1.91.9b/imgui_widgets.cpp || cmake_object_order_depends_target_raylibTesting
+  DEP_FILE = CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui_widgets.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylibTesting -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/raylib-5.5_linux_amd64/include -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/rlImGui -I/media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/imgui-1.91.9b
+  OBJECT_DIR = CMakeFiles/raylibTesting.dir
+  OBJECT_FILE_DIR = CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b
 
 
 # =============================================================================
@@ -64,11 +99,11 @@ build CMakeFiles/raylibTesting.dir/main.cpp.o: CXX_COMPILER__raylibTesting_unsca
 #############################################
 # Link the executable raylibTesting
 
-build raylibTesting: CXX_EXECUTABLE_LINKER__raylibTesting_Debug CMakeFiles/raylibTesting.dir/main.cpp.o | /media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylib/raylib-5.5_linux_amd64/lib/libraylib.a
+build raylibTesting: CXX_EXECUTABLE_LINKER__raylibTesting_Debug CMakeFiles/raylibTesting.dir/main.cpp.o CMakeFiles/raylibTesting.dir/externalLibs/raylib/rlImGui/rlImGui.cpp.o CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui.cpp.o CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui_draw.cpp.o CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui_tables.cpp.o CMakeFiles/raylibTesting.dir/externalLibs/imgui-1.91.9b/imgui_widgets.cpp.o | /media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/raylib-5.5_linux_amd64/lib/libraylib.a
   DEP_FILE = CMakeFiles/raylibTesting.dir/link.d
   FLAGS = -g
   LINK_FLAGS = -Wl,--dependency-file=CMakeFiles/raylibTesting.dir/link.d
-  LINK_LIBRARIES = /media/philip/Games/Users/phili/Documents/Coding/raylibTesting/raylib/raylib-5.5_linux_amd64/lib/libraylib.a  -lm  -lpthread  -ldl  -lrt  -lX11
+  LINK_LIBRARIES = /media/philip/Games/Users/phili/Documents/Coding/raylibTesting/externalLibs/raylib/raylib-5.5_linux_amd64/lib/libraylib.a  -lm  -lpthread  -ldl  -lrt  -lX11
   OBJECT_DIR = CMakeFiles/raylibTesting.dir
   POST_BUILD = :
   PRE_LINK = :
