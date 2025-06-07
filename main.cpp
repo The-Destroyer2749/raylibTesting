@@ -131,21 +131,22 @@ int main() {
         rlImGuiBegin();
 
         if (ImGui::Begin("Settings")) {
-            ImGui::Text("Block grid width");
-            if (ImGui::SliderInt("Block grid width slider", &blockGridWidth, blockGridMinWidth, blockGridMaxWidth)) {
-                recalculateBlockGrid(blockGridWidth, blockGridHeight, blockGridSize, blockGrid);
+            if (ImGui::CollapsingHeader("Block Grid", ImGuiTreeNodeFlags_DefaultOpen)) {
+                ImGui::Text("Block grid sizing:");
+                if (ImGui::SliderInt("Block grid width", &blockGridWidth, blockGridMinWidth, blockGridMaxWidth)) {
+                    recalculateBlockGrid(blockGridWidth, blockGridHeight, blockGridSize, blockGrid);
+                }
+                if (ImGui::SliderInt("Block grid height", &blockGridHeight, blockGridMinHeight, blockGridMaxHeight)) {
+                    recalculateBlockGrid(blockGridWidth, blockGridHeight, blockGridSize, blockGrid);
+                }
+
+                ImGui::Text("Total Blocks: %d", blockGridSize);
+                ImGui::Text("Grid aspect ratio: %s", findAspectRatio(blockGridWidth, blockGridHeight));
             }
-
-            ImGui::Text("Block grid height");
-            if (ImGui::SliderInt("Block grid height slider", &blockGridHeight, blockGridMinHeight, blockGridMaxHeight)) {
-                recalculateBlockGrid(blockGridWidth, blockGridHeight, blockGridSize, blockGrid);
+            if (ImGui::CollapsingHeader("Coloring")) {
+                ImGui::Text("Background color");
+                ImGui::ColorEdit3("Background color", backgroundColor);
             }
-
-            ImGui::Text("Total Blocks: %d", blockGridSize);
-            ImGui::Text("Grid aspect ratio: %s", findAspectRatio(blockGridWidth, blockGridHeight));
-
-            ImGui::Text("Background color");
-            ImGui::ColorEdit3("Background color", backgroundColor);
         }
         ImGui::End();
 
