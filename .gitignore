@@ -1,36 +1,36 @@
-### C++ template
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+# ### C++ template (removed because it kinda breaks my code if you were to git clone this repo)
+# # Prerequisites
+# *.d
+#
+# # Compiled Object files
+# *.slo
+# *.lo
+# *.o
+# *.obj
+#
+# # Precompiled Headers
+# *.gch
+# *.pch
+#
+# # Compiled Dynamic libraries
+# *.so
+# *.dylib
+# *.dll
+#
+# # Fortran module files
+# *.mod
+# *.smod
+#
+# # Compiled Static libraries
+# *.lai
+# *.la
+# # *.a
+# *.lib
+#
+# # Executables
+# *.exe
+# *.out
+# *.app
 
 ### CMake template
 CMakeLists.txt.user
