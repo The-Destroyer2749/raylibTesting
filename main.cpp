@@ -47,7 +47,7 @@ void recalculateBlockGrid(int blockGridWidth, int blockGridHeight, int& blockGri
 
 int getNumberOfDigits(int num) {
     if (num != 0) {
-        return log10(num);
+        return static_cast<int>(log10(num));
     }
     else {
         return 1;
@@ -58,14 +58,11 @@ char* findAspectRatio(int width, int height) { // Since I'm working with char* I
     int gcd = std::gcd(width, height);
     // std::cout << "gcd: " << gcd << std::endl;
 
-    int numOfDigits;
-    int resultStringLength;
-
-    numOfDigits = getNumberOfDigits(width / gcd);
+    int numOfDigits = getNumberOfDigits(width / gcd);
 
     char* temp = (char*)malloc(numOfDigits * sizeof(char));
 
-    resultStringLength = getNumberOfDigits(numOfDigits + (height / gcd) + 1);
+    int resultStringLength = getNumberOfDigits(numOfDigits + (height / gcd) + 1);
     char* result = (char*)malloc(numOfDigits * sizeof(char)); // I don't free the result char* as it is what's returned for the function
 
     sprintf(result, "%d", width / gcd);
@@ -94,8 +91,6 @@ int main() {
     int blockGridHeight = 20;
     int blockGridSize = blockGridMaxWidth * blockGridMaxHeight;
 
-    std::chrono::high_resolution_clock* clock = new std::chrono::high_resolution_clock();
-
     std::chrono::time_point<std::chrono::high_resolution_clock> clockStart;
     std::chrono::time_point<std::chrono::high_resolution_clock> clockEnd;
     std::chrono::duration<double> deltaTime;
@@ -114,7 +109,7 @@ int main() {
     recalculateBlockGrid(blockGridWidth, blockGridHeight, blockGridSize, blockGrid);
 
     while (!WindowShouldClose()) {
-        clockStart = clock->now();
+        clockStart = std::chrono::high_resolution_clock::now();
 
         BeginDrawing();
         ClearBackground(ColorFromNormalized({backgroundColor[0], backgroundColor[1], backgroundColor[2], 255.0f}));
@@ -191,10 +186,10 @@ int main() {
 
         rlImGuiEnd();
         EndDrawing();
-        clockEnd = clock->now();
+        clockEnd = std::chrono::high_resolution_clock::now();
         deltaTime = clockEnd - clockStart;
-        mspf = std::chrono::duration_cast<std::chrono::milliseconds>(deltaTime).count();
-        fps = static_cast<float>(1000.0f / mspf);
+        mspf = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(deltaTime).count());
+        fps = 1000.0f / static_cast<float>(mspf);
     }
 
     CloseWindow();
