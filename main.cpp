@@ -6,6 +6,7 @@
 #include <cmath>
 #include <numeric>
 #include <iostream>
+#include <chrono>
 
 
 struct Block {
@@ -93,6 +94,15 @@ int main() {
     int blockGridHeight = 20;
     int blockGridSize = blockGridMaxWidth * blockGridMaxHeight;
 
+    std::chrono::high_resolution_clock* clock = new std::chrono::high_resolution_clock();
+
+    std::chrono::time_point<std::chrono::high_resolution_clock> clockStart;
+    std::chrono::time_point<std::chrono::high_resolution_clock> clockEnd;
+    std::chrono::duration<double> deltaTime;
+    int mspf;
+    float fps = 0;
+
+
     float backgroundColor[3] = {80.0f / 255.0f, 80.0f / 255.0f, 80.0f / 255.0f};
 
     blockGrid.reserve(blockGridSize);
@@ -104,6 +114,8 @@ int main() {
     recalculateBlockGrid(blockGridWidth, blockGridHeight, blockGridSize, blockGrid);
 
     while (!WindowShouldClose()) {
+        clockStart = clock->now();
+
         BeginDrawing();
         ClearBackground(ColorFromNormalized({backgroundColor[0], backgroundColor[1], backgroundColor[2], 255.0f}));
 
@@ -131,6 +143,31 @@ int main() {
         rlImGuiBegin();
 
         if (ImGui::Begin("Settings")) {
+            ImVec4 textColor;
+            if (mspf <= 11.11f) { // 90 fps
+                textColor = ImColor(0,255,0,255);
+            }
+            else if (mspf <= 16.66f) { // 60 fps
+                textColor = ImColor(255,255,0,255);
+            }
+            else {
+                textColor = ImColor(255,0,0,255);
+            }
+
+
+            ImGui::Text("Mspf: ");
+            ImGui::PushStyleColor(ImGuiCol_Text, textColor);
+            ImGui::SameLine();
+            ImGui::Text("%d", mspf);
+            ImGui::PopStyleColor();
+
+            ImGui::Text("Fps: ");
+            ImGui::PushStyleColor(ImGuiCol_Text, textColor);
+            ImGui::SameLine();
+            ImGui::Text("%.2f", fps);
+            ImGui::PopStyleColor();
+
+
             if (ImGui::CollapsingHeader("Block Grid", ImGuiTreeNodeFlags_DefaultOpen)) {
                 ImGui::Text("Block grid sizing:");
                 if (ImGui::SliderInt("Block grid width", &blockGridWidth, blockGridMinWidth, blockGridMaxWidth)) {
@@ -154,6 +191,10 @@ int main() {
 
         rlImGuiEnd();
         EndDrawing();
+        clockEnd = clock->now();
+        deltaTime = clockEnd - clockStart;
+        mspf = std::chrono::duration_cast<std::chrono::milliseconds>(deltaTime).count();
+        fps = static_cast<float>(1000.0f / mspf);
     }
 
     CloseWindow();
