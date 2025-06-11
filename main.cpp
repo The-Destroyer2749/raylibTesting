@@ -15,6 +15,20 @@ struct Block {
     unsigned int health;
 };
 
+struct Ball {
+    Vector2 position;
+    Vector2 velocity;
+    Color color;
+    unsigned int damage;
+};
+
+struct Player {
+    Vector2 position;
+    float velocity;
+    Color color;
+    unsigned int health;
+};
+
 void recalculateBlockGrid(int blockGridWidth, int blockGridHeight, int& blockGridSize, std::vector<Block>& blockGrid) {
     blockGridSize = blockGridHeight * blockGridWidth;
 
@@ -22,7 +36,7 @@ void recalculateBlockGrid(int blockGridWidth, int blockGridHeight, int& blockGri
 
     // if you static_cast to float for these values it causes no rounding so the blocks end up having spaces around them
     float blockWidth = ceil(static_cast<float>(GetScreenWidth()) / static_cast<float>(blockGridWidth));
-    float blockHeight = ceil(static_cast<float>(GetScreenHeight()) / static_cast<float>(blockGridHeight));
+    float blockHeight = ceil((static_cast<float>(GetScreenHeight()) / 3) / static_cast<float>(blockGridHeight));
 
 
     for (int i=0; i<blockGridSize; i++) {
@@ -40,9 +54,13 @@ void recalculateBlockGrid(int blockGridWidth, int blockGridHeight, int& blockGri
                 static_cast<unsigned char>(randomColorValue),
                 255
             },
-            static_cast<unsigned int>(GetRandomValue(0, 10))
+            static_cast<unsigned int>(GetRandomValue(1, 3))
         });
     }
+}
+
+void solvePositions() {
+
 }
 
 int getNumberOfDigits(int num) {
@@ -82,9 +100,14 @@ int main() {
     SetExitKey(0);
 
     std::vector<Block> blockGrid;
+    float playerColor[3] = {80.0f / 255.0f, 80.0f / 255.0f, 200.0f / 255.0f};
+    int playerWidth = 30;
+    int playerHeight = 10;
+    Player player = {Vector2 {static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 2}, 0.0f, ColorFromNormalized({playerColor[0], playerColor[1], playerColor[2], 255}), 5}; // TODO: The player is just not rendering for some reason also work on making sure the color gets displayed properly after updating it in the GUI
+    Ball ball;
 
-    int blockGridMinWidth = 16;
-    int blockGridMinHeight = 9;
+    int blockGridMinWidth = 10;
+    int blockGridMinHeight = 3;
     int blockGridMaxWidth = 320;
     int blockGridMaxHeight = 180;
     int blockGridWidth = 30;
@@ -94,8 +117,11 @@ int main() {
     std::chrono::time_point<std::chrono::high_resolution_clock> clockStart;
     std::chrono::time_point<std::chrono::high_resolution_clock> clockEnd;
     std::chrono::duration<double> deltaTime;
+    std::array<float, 30> fpsBuffer = {}; // 30 or 60 is a good number to use generally It's best to go with what you know will be the worst case scenario for performance
+    int microsecondsPerFrame;
     int mspf;
     float fps = 0;
+    unsigned long long frameNumber = 0;
 
 
     float backgroundColor[3] = {80.0f / 255.0f, 80.0f / 255.0f, 80.0f / 255.0f};
@@ -135,6 +161,9 @@ int main() {
             }
         }
 
+        // player.color = ColorFromNormalized({playerColor[0], playerColor[1], playerColor[2], 255});
+        DrawRectangle(player.position.x, player.position.y, playerWidth, playerHeight, player.color);
+
         rlImGuiBegin();
 
         if (ImGui::Begin("Settings")) {
@@ -149,17 +178,22 @@ int main() {
                 textColor = ImColor(255,0,0,255);
             }
 
-
-            ImGui::Text("Mspf: ");
+            ImGui::Text("milliseconds per frame: ");
             ImGui::PushStyleColor(ImGuiCol_Text, textColor);
             ImGui::SameLine();
             ImGui::Text("%d", mspf);
             ImGui::PopStyleColor();
 
-            ImGui::Text("Fps: ");
+            ImGui::Text("microseconds per frame: ");
             ImGui::PushStyleColor(ImGuiCol_Text, textColor);
             ImGui::SameLine();
-            ImGui::Text("%.2f", fps);
+            ImGui::Text("%d", microsecondsPerFrame % 1000);
+            ImGui::PopStyleColor();
+
+            ImGui::Text("fps: ");
+            ImGui::PushStyleColor(ImGuiCol_Text, textColor);
+            ImGui::SameLine();
+            ImGui::Text("%.0f", fps);
             ImGui::PopStyleColor();
 
 
@@ -176,8 +210,9 @@ int main() {
                 ImGui::Text("Grid aspect ratio: %s", findAspectRatio(blockGridWidth, blockGridHeight));
             }
             if (ImGui::CollapsingHeader("Coloring")) {
-                ImGui::Text("Background color");
                 ImGui::ColorEdit3("Background color", backgroundColor);
+
+                ImGui::ColorEdit3("Player color", playerColor);
             }
         }
         ImGui::End();
@@ -186,10 +221,19 @@ int main() {
 
         rlImGuiEnd();
         EndDrawing();
+        frameNumber++;
         clockEnd = std::chrono::high_resolution_clock::now();
         deltaTime = clockEnd - clockStart;
+        microsecondsPerFrame = static_cast<int>(std::chrono::duration_cast<std::chrono::microseconds>(deltaTime).count());
         mspf = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(deltaTime).count());
-        fps = 1000.0f / static_cast<float>(mspf);
+        fpsBuffer[frameNumber % std::size(fpsBuffer)] = 1000000.0f / static_cast<float>(microsecondsPerFrame);
+
+        float fpsSum = 0.0f;
+        for (float fpsNum : fpsBuffer) {
+            fpsSum += fpsNum;
+
+            fps = fpsSum / static_cast<float>(std::size(fpsBuffer));
+        }
     }
 
     CloseWindow();
