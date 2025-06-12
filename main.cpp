@@ -103,7 +103,7 @@ int main() {
     int playerWidth = GetScreenWidth() / 20;
     int playerHeight = GetScreenHeight() / 40;
     float playerSpeed = 1.0f;
-    Player player = {Vector2 {static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 2}, 0.0f, ColorFromNormalized({playerColor[0], playerColor[1], playerColor[2], 255.0f / 255.0f}), 5}; // TODO: The player is just not rendering for some reason also work on making sure the color gets displayed properly after updating it in the GUI
+    Player player = {Vector2 {static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 2}, 0.0f, ColorFromNormalized({playerColor[0], playerColor[1], playerColor[2], 255.0f / 255.0f}), 5};
     Ball ball;
 
     int blockGridMinWidth = 10;
