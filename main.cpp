@@ -17,14 +17,13 @@ struct Block {
 
 struct Ball {
     Vector2 position;
-    Vector2 velocity;
     Color color;
     unsigned int damage;
 };
 
 struct Player {
     Vector2 position;
-    float velocity;
+    float xPositionOffset;
     Color color;
     unsigned int health;
 };
@@ -95,23 +94,24 @@ char* findAspectRatio(int width, int height) { // Since I'm working with char* I
 
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(800, 450, "raylibTesting");
+    InitWindow(960, 540, "raylibTesting");
     rlImGuiSetup(true);
     SetExitKey(0);
 
     std::vector<Block> blockGrid;
-    float playerColor[3] = {80.0f / 255.0f, 80.0f / 255.0f, 200.0f / 255.0f};
-    int playerWidth = 30;
-    int playerHeight = 10;
-    Player player = {Vector2 {static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 2}, 0.0f, ColorFromNormalized({playerColor[0], playerColor[1], playerColor[2], 255}), 5}; // TODO: The player is just not rendering for some reason also work on making sure the color gets displayed properly after updating it in the GUI
+    float playerColor[3] = {170.0f / 255.0f, 0.0f / 255.0f, 255.0f / 255.0f};
+    int playerWidth = GetScreenWidth() / 20;
+    int playerHeight = GetScreenHeight() / 40;
+    float playerSpeed = 1.0f;
+    Player player = {Vector2 {static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 2}, 0.0f, ColorFromNormalized({playerColor[0], playerColor[1], playerColor[2], 255.0f / 255.0f}), 5}; // TODO: The player is just not rendering for some reason also work on making sure the color gets displayed properly after updating it in the GUI
     Ball ball;
 
     int blockGridMinWidth = 10;
     int blockGridMinHeight = 3;
     int blockGridMaxWidth = 320;
     int blockGridMaxHeight = 180;
-    int blockGridWidth = 30;
-    int blockGridHeight = 20;
+    int blockGridWidth = 32;
+    int blockGridHeight = 18;
     int blockGridSize = blockGridMaxWidth * blockGridMaxHeight;
 
     std::chrono::time_point<std::chrono::high_resolution_clock> clockStart;
@@ -140,19 +140,29 @@ int main() {
         BeginDrawing();
         ClearBackground(ColorFromNormalized({backgroundColor[0], backgroundColor[1], backgroundColor[2], 255.0f}));
 
+
         if (windowWidth != GetScreenWidth() || windowHeight != GetScreenHeight()) {
             windowWidth = GetScreenWidth();
             windowHeight = GetScreenHeight();
 
+            // TODO: fix bug where if you move with a large screen width then it will translate to a much higher movement when dropping down to a lower screen width
+
+            player.position.x = GetScreenWidth() / 2;
+            player.position.y = GetScreenHeight() / 2;
+
             blockGridSize = blockGridHeight * blockGridWidth;
 
             recalculateBlockGrid(blockGridWidth, blockGridHeight, blockGridSize, blockGrid);
-            /*
-            for (int i=0; i<blockGridSize; i++) {
-                std::cout << "X pos: " << static_cast<float>((i % blockGridWidth) * blockWidth) << " | Y pos: " << static_cast<float>((i / blockGridWidth) * blockHeight) << " ][ Width: " << blockWidth << " | Height: " << blockHeight << std::endl;
-            }
-            std::cout << std::endl << std::endl;
-            */
+
+            playerWidth = GetScreenWidth() / 25;
+            playerHeight = GetScreenHeight() / 50;
+        }
+
+        if (IsKeyDown(KEY_A)) {
+            player.xPositionOffset -= (playerSpeed / 1000.0f) * GetScreenWidth() * (deltaTime.count() * 300.0f);
+        }
+        if (IsKeyDown(KEY_D)) {
+            player.xPositionOffset += (playerSpeed / 1000.0f) * GetScreenWidth() * (deltaTime.count() * 300.0f);
         }
 
         for (int i=0; i<blockGridSize; i++) {
@@ -161,14 +171,18 @@ int main() {
             }
         }
 
-        // player.color = ColorFromNormalized({playerColor[0], playerColor[1], playerColor[2], 255});
-        DrawRectangle(player.position.x, player.position.y, playerWidth, playerHeight, player.color);
+        player.color = ColorFromNormalized({playerColor[0], playerColor[1], playerColor[2], 255.0f / 255.0f});
+
+
+        DrawRectangle(player.position.x + player.xPositionOffset, player.position.y, playerWidth, playerHeight, player.color);
+
+
 
         rlImGuiBegin();
 
         if (ImGui::Begin("Settings")) {
             ImVec4 textColor;
-            if (mspf <= 11.11f) { // 90 fps
+            if (mspf <= 8.33f) { // 120 fps
                 textColor = ImColor(0,255,0,255);
             }
             else if (mspf <= 16.66f) { // 60 fps
