@@ -28,6 +28,16 @@ struct Player {
     unsigned int health;
 };
 
+struct Defaults {
+    int blockGridWidth;
+    int blockGridHeight;
+    Vector3 backgroundColor;
+    Vector3 playerColor;
+    float playerWidthMult;
+    float playerHeightMult;
+    float playerSpeed;
+};
+
 void recalculateBlockGrid(int blockGridWidth, int blockGridHeight, int& blockGridSize, std::vector<Block>& blockGrid) {
     blockGridSize = blockGridHeight * blockGridWidth;
 
@@ -102,6 +112,8 @@ int main() {
     float playerColor[3] = {170.0f / 255.0f, 0.0f / 255.0f, 255.0f / 255.0f};
     int playerWidth = GetScreenWidth() / 20;
     int playerHeight = GetScreenHeight() / 40;
+    float playerWidthMult = 1;
+    float playerHeightMult = 1;
     float playerSpeed = 1.0f;
     Player player = {Vector2 {static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 2}, 0.0f, ColorFromNormalized({playerColor[0], playerColor[1], playerColor[2], 255.0f / 255.0f}), 5};
     Ball ball;
@@ -134,6 +146,8 @@ int main() {
 
     recalculateBlockGrid(blockGridWidth, blockGridHeight, blockGridSize, blockGrid);
 
+    Defaults defaultsList = {blockGridWidth, blockGridHeight, backgroundColor[0], backgroundColor[1], backgroundColor[2], playerColor[0], playerColor[1], playerColor[2], playerWidthMult, playerHeightMult, playerSpeed};
+
     while (!WindowShouldClose()) {
         clockStart = std::chrono::high_resolution_clock::now();
 
@@ -144,8 +158,6 @@ int main() {
         if (windowWidth != GetScreenWidth() || windowHeight != GetScreenHeight()) {
             windowWidth = GetScreenWidth();
             windowHeight = GetScreenHeight();
-
-            // TODO: fix bug where if you move with a large screen width then it will translate to a much higher movement when dropping down to a lower screen width
 
             player.position.x = GetScreenWidth() / 2;
             player.position.y = GetScreenHeight() / 2;
@@ -159,11 +171,12 @@ int main() {
         }
 
         if (IsKeyDown(KEY_A)) {
-            player.xPositionOffset -= (playerSpeed / 1000.0f) * GetScreenWidth() * (deltaTime.count() * 300.0f);
+            player.xPositionOffset -= playerSpeed* deltaTime.count();
         }
         if (IsKeyDown(KEY_D)) {
-            player.xPositionOffset += (playerSpeed / 1000.0f) * GetScreenWidth() * (deltaTime.count() * 300.0f);
+            player.xPositionOffset += playerSpeed * deltaTime.count();
         }
+
 
         for (int i=0; i<blockGridSize; i++) {
             if (blockGrid[i].health != 0) {
@@ -174,7 +187,13 @@ int main() {
         player.color = ColorFromNormalized({playerColor[0], playerColor[1], playerColor[2], 255.0f / 255.0f});
 
 
-        DrawRectangle(player.position.x + player.xPositionOffset, player.position.y, playerWidth, playerHeight, player.color);
+        DrawRectangle(
+            player.position.x + (player.xPositionOffset * static_cast<float>(windowWidth) * 0.75f),
+            player.position.y,
+            playerWidth * playerWidthMult,
+            playerHeight * playerHeightMult,
+            player.color
+            );
 
 
 
@@ -210,6 +229,19 @@ int main() {
             ImGui::Text("%.0f", fps);
             ImGui::PopStyleColor();
 
+            if (ImGui::Button("Reset all parameters")) { // incredibly bad way to reset all params maybe make this a function later on
+                blockGridWidth = defaultsList.blockGridWidth;
+                blockGridHeight = defaultsList.blockGridHeight;
+                backgroundColor[0] = defaultsList.backgroundColor.x;
+                backgroundColor[1] = defaultsList.backgroundColor.y;
+                backgroundColor[2] = defaultsList.backgroundColor.z;
+                playerColor[0] = defaultsList.playerColor.x;
+                playerColor[1] = defaultsList.playerColor.y;
+                playerColor[2] = defaultsList.playerColor.z;
+                playerWidthMult = defaultsList.playerWidthMult;
+                playerHeightMult = defaultsList.playerHeightMult;
+                playerSpeed = defaultsList.playerSpeed;
+            }
 
             if (ImGui::CollapsingHeader("Block Grid", ImGuiTreeNodeFlags_DefaultOpen)) {
                 ImGui::Text("Block grid sizing:");
@@ -227,6 +259,11 @@ int main() {
                 ImGui::ColorEdit3("Background color", backgroundColor);
 
                 ImGui::ColorEdit3("Player color", playerColor);
+            }
+            if (ImGui::CollapsingHeader("Player")) {
+                ImGui::SliderFloat("Player width: ", &playerWidthMult, 0.25f, 4.0f);
+                ImGui::SliderFloat("Player height: ", &playerHeightMult, 0.25f, 4.0f);
+                ImGui::SliderFloat("Player speed: ", &playerSpeed, 0.25f, 4.0f);
             }
         }
         ImGui::End();
